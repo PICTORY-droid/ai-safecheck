@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AppLogo from "./AppLogo";
 
 const NAV_ITEMS = [
   {
@@ -23,12 +24,7 @@ export default function AppHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
-        <Link href="/" className="flex flex-col">
-          <span className="text-base font-bold tracking-tight text-slate-950">
-            AI SafeCheck
-          </span>
-          <span className="text-xs text-slate-500">AI 입력 전 보안 검사</span>
-        </Link>
+        <AppLogo />
 
         <nav aria-label="주요 메뉴" className="flex items-center gap-2">
           {NAV_ITEMS.map((item) => (

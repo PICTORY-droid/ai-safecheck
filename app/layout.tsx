@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   title: "AI SafeCheck",
   description:
     "외부 생성형 AI에 입력하기 전 개인정보, 회사기밀, 계약정보, 저작권 위험, 허위·과장 표현을 점검하는 보안 검사 앱입니다.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
