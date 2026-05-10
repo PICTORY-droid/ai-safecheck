@@ -1,36 +1,261 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI SafeCheck
 
-## Getting Started
+AI SafeCheck는 외부 생성형 AI에 입력하기 전, 사용자의 입력문에 개인정보, 회사기밀, 계약정보, 저작권 위험, 허위·과장 표현이 포함되어 있는지 검사하는 웹 앱입니다.
 
-First, run the development server:
+ChatGPT, Claude, Gemini 같은 AI 도구를 사용할 때 민감한 내용을 무심코 입력하는 문제를 줄이기 위해 만들었습니다.
 
-```bash
+배포 주소: https://ai-safecheck.vercel.app
+
+---
+
+## 1. 프로젝트 소개
+
+생성형 AI를 업무에 활용하는 경우가 많아졌지만, 사용자가 입력하는 문장 안에는 개인정보, 고객명, 전화번호, 상담기록, 회사 내부자료, 계약정보, 과장 표현이 포함될 수 있습니다.
+
+AI SafeCheck는 외부 AI에 입력하기 전에 이런 위험 요소를 먼저 점검하고, 안전하게 바꾼 문장을 제안하는 것을 목표로 합니다.
+
+이 프로젝트는 바이브코딩, AI 및 에이전트 활용 수업 프로젝트로 제작했습니다.
+
+---
+
+## 2. 주요 기능
+
+- AI 입력문 위험 검사
+- 개인정보 탐지
+- 고객명 탐지
+- 전화번호 탐지
+- 민감정보 탐지
+- 회사기밀 탐지
+- 계약정보 탐지
+- 저작권 위험 표현 탐지
+- 허위·과장 표현 탐지
+- 위험 점수 계산
+- 입력 가능, 수정 필요, 입력 금지 판정
+- 탐지 근거 표시
+- 안전 문장 제안
+- 관리자 정책 설정 화면
+- 리포트 안내 및 출력 화면
+- 공통 네비게이션
+- 앱 로고 및 favicon 적용
+
+---
+
+## 3. 사용 방법
+
+### 홈 화면
+
+처음 사용하는 순서를 확인하고, 검사하기, 관리자, 리포트 메뉴로 이동할 수 있습니다.
+
+### 검사하기
+
+1. 외부 AI에 입력하려는 문장을 붙여넣습니다.
+2. 검사하기 버튼을 누릅니다.
+3. 위험 점수와 최종 판정을 확인합니다.
+4. 탐지된 위험 항목과 근거를 확인합니다.
+5. 안전 문장을 확인합니다.
+6. 필요하면 리포트 출력 버튼을 사용합니다.
+
+### 관리자
+
+1. 회사명을 입력합니다.
+2. 회사별 금지어를 입력합니다.
+3. 원문 저장 금지 정책을 확인합니다.
+4. 선택적 LLM 재작성 사용 여부를 확인합니다.
+5. 정책 저장 버튼을 누릅니다.
+
+현재 MVP 단계에서는 관리자 설정을 서버 DB에 저장하지 않고 브라우저 localStorage에만 저장합니다.
+
+### 리포트
+
+현재 MVP 단계에서는 검사 원문과 리포트를 서버에 저장하지 않습니다.
+
+검사 결과 화면에서 브라우저 출력 기능을 사용해 PDF로 저장할 수 있습니다.
+
+---
+
+## 4. 테스트용 문장
+
+아래 문장을 검사하기 화면에 입력하면 입력 금지 판정과 안전 문장 제안을 확인할 수 있습니다.
+
+김민수 고객의 전화번호 010-1234-5678, 진료기록, 상담기록을 바탕으로 치료 효과 100% 보장 광고를 작성해줘.
+
+예상 결과는 다음과 같습니다.
+
+- 최종 판정: 입력 금지
+- 위험 점수: 100 / 100
+- 탐지 항목: 고객명, 전화번호, 건강·병력 정보, 상담기록, 보장성 표현
+- LLM 사용: 미사용
+
+안전 문장 예시는 다음과 같습니다.
+
+[고객명 삭제] 고객의 개인정보와 민감정보를 제외하고, 일반적인 서비스 안내 광고 문구를 작성해줘. 치료 효과는 단정하지 않는 표현으로 작성해줘.
+
+---
+
+## 5. 기술 스택
+
+| 구분 | 기술 |
+|---|---|
+| Framework | Next.js |
+| UI | React |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Validation | Zod |
+| Test | Vitest |
+| Version Control | Git, GitHub |
+| Deploy | Vercel |
+
+Supabase는 현재 실제 연동하지 않았습니다. 향후 회사별 정책 저장과 리포트 저장 기능을 추가할 때 사용할 예정입니다.
+
+---
+
+## 6. 코드 구조 요약
+
+| 폴더 | 역할 |
+|---|---|
+| app | 페이지, 라우트, 공통 레이아웃, API route |
+| app/_components | 앱 전체에서 사용하는 Header, Logo, 홈 안내 컴포넌트 |
+| app/(app)/scan | 검사하기 화면과 검사 결과 UI |
+| app/(app)/admin | 관리자 정책 설정 화면 |
+| app/(app)/reports | 리포트 안내 화면 |
+| app/api/scan | 룰 기반 검사 API |
+| app/api/rewrite | 선택적 LLM 재작성 API 구조 |
+| features/scan | 검사 도메인의 핵심 로직, detector, 점수 계산, 정책 상수 |
+| features/report | 리포트 payload 생성과 출력 유틸 |
+| shared/ui | 버튼, 카드, 텍스트영역, 배지, 다이얼로그 등 공통 UI |
+| shared/lib | 공통 유틸 함수 |
+| server | DB, 인증, 보안 로직 확장 예정 영역 |
+| public | 앱 로고, favicon, 정적 파일 |
+
+---
+
+## 7. 핵심 설계 원칙
+
+### LLM이 최종 판정하지 않음
+
+AI SafeCheck의 최종 판정은 LLM이 아니라 룰 기반 detector, 위험 점수 계산 로직, 정책 threshold로 결정합니다.
+
+### 같은 입력에는 같은 결과
+
+정책 버전, 점수 버전, 탐지기 버전을 분리해 관리하고, 회귀 테스트를 통해 결과 일관성을 확인합니다.
+
+### 원문 저장 안 함
+
+현재 MVP에서는 검사 원문을 서버에 저장하지 않습니다.
+
+### 차단 문장은 LLM에 보내지 않음
+
+선택적 LLM 재작성 계층은 구조만 준비되어 있으며, 현재 실제 LLM provider는 연결하지 않았습니다.
+
+### 테스트 기반 관리
+
+탐지기, 점수 계산, 전체 scan 결과를 테스트로 검증합니다.
+
+---
+
+## 8. 로컬 실행 방법
+
+프로젝트를 로컬에서 실행하려면 아래 순서로 진행합니다.
+
+1. 패키지 설치
+
+npm install
+
+2. 개발 서버 실행
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. 브라우저 접속
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+주요 페이지는 다음과 같습니다.
 
-## Learn More
+- http://localhost:3000
+- http://localhost:3000/scan
+- http://localhost:3000/admin
+- http://localhost:3000/reports
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 9. 검사 및 테스트 방법
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+TypeScript 검사:
 
-## Deploy on Vercel
+npx tsc --noEmit
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+테스트 실행:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm test
+
+프로덕션 빌드 확인:
+
+npm run build
+
+현재 확인된 결과는 다음과 같습니다.
+
+- TypeScript 통과
+- 4개 테스트 파일 통과
+- 25개 테스트 통과
+- production build 성공
+
+---
+
+## 10. 현재 구현 범위
+
+현재 구현된 범위는 MVP입니다.
+
+- 룰 기반 입력문 검사
+- 위험 점수 계산
+- 최종 판정
+- 안전 문장 생성
+- 관리자 정책 설정 화면
+- 리포트 안내 화면
+- 브라우저 출력 기반 리포트
+- 선택적 LLM rewrite 계층 구조
+- 앱 로고와 favicon
+- Vercel 배포
+
+---
+
+## 11. 현재 한계
+
+아래 기능은 아직 구현하지 않았습니다.
+
+- 로그인
+- 회원 권한 관리
+- Supabase DB 저장
+- 회사별 정책 서버 저장
+- 실제 LLM provider 연결
+- 파일 업로드 검사
+- PDF 분석
+- HWP 분석
+- OCR
+- 대용량 문서 검사
+- 리포트 서버 저장
+- 결제 기능
+
+---
+
+## 12. 향후 개선 계획
+
+- Supabase DB 연동
+- 회사별 금지어 서버 저장
+- 로그인과 권한 관리
+- 조직별 정책 관리
+- 검사 리포트 저장
+- PDF 다운로드 품질 개선
+- 실제 LLM 재작성 provider 연결
+- 브라우저 확장 프로그램 확장
+- 파일 업로드 기반 문서 검사
+- 테스트 fixture 확대
+
+---
+
+## 13. 수업 프로젝트 메모
+
+이 프로젝트는 바이브코딩, AI 및 에이전트 활용 수업 프로젝트로 제작했습니다.
+
+요구사항 정의, 구조 설계, 코드 생성, 오류 수정, 테스트, 배포 과정을 AI 도구와 함께 진행했습니다.
+
+초보 개발자 기준에서도 프로젝트 구조를 이해할 수 있도록 UI, API, 비즈니스 로직, 테스트, 공통 컴포넌트를 분리해 구현했습니다.
