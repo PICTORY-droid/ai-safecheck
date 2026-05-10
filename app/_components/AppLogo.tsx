@@ -7,10 +7,10 @@ export default function AppLogo() {
       <Image
         src="/ai-safecheck-logo.png"
         alt="AI SafeCheck 로고"
-        width={36}
-        height={36}
+        width={40}
+        height={40}
         priority
-        className="h-9 w-9 rounded-xl"
+        className="h-10 w-10 rounded-xl"
       />
       <span className="flex flex-col">
         <span className="text-base font-bold tracking-tight text-slate-950">
