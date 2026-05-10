@@ -28,9 +28,10 @@ describe("scanText", () => {
   });
 
   it("returns a safe prompt with detected values replaced", () => {
-    const result = scanText("고객 전화번호 010-1234-5678로 안내문을 작성해줘.");
+    const result = scanText("김민수 고객의 전화번호 010-1234-5678로 안내문을 작성해줘.");
 
+    expect(result.safePrompt).not.toContain("김민수");
     expect(result.safePrompt).not.toContain("010-1234-5678");
-    expect(result.safePrompt).toContain("[전화번호 삭제]");
+    expect(result.safePrompt).toContain("개인정보를 제외하고");
   });
 });

@@ -13,9 +13,9 @@ export const scanFixtures: ScanFixture[] = [
   {
     name: "전화번호가 포함된 개인정보 입력",
     input: "김민수 고객의 전화번호 010-1234-5678을 바탕으로 안내문을 작성해줘.",
-    expectedLevel: "safe",
+    expectedLevel: "warning",
     expectedCategories: ["personalInfo"],
-    minScore: 25,
+    minScore: 45,
   },
   {
     name: "주민등록번호 의심 패턴 포함",

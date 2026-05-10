@@ -12,6 +12,10 @@ export interface KeywordRiskPattern {
 
 export const REGEX_RISK_PATTERNS: RegexRiskPattern[] = [
   {
+  key: "customerName",
+  pattern: /(?:김|이|박|최|정|강|조|윤|장|임|한|오|서|신|권|황|안|송|류|홍|전|고|문|양|손|배|백|허|유|남|심|노|하|곽|성|차|주|우|구|민|진|지|엄|채|원|천|방|공|현|함|변|염|여|추|도|소|석|선|설|마|길|연|위|표|명|기|왕|금|옥|육|인|맹|제|모|탁|국|어|은|편|용)[가-힣]{1,3}\s고객(?=의|님|은|는|이|가|,|\s)/g,
+},
+  {
     key: "personalPhone",
     pattern: /01[016789]-?\d{3,4}-?\d{4}/g,
   },

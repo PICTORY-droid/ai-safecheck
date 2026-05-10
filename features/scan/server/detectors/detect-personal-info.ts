@@ -3,6 +3,7 @@ import { RISK_POLICY } from "../../constants/risk-policy";
 import type { RiskFinding } from "../../types/risk.types";
 
 const PERSONAL_INFO_KEYS = new Set([
+  "customerName",
   "personalPhone",
   "personalEmail",
   "residentNumber",

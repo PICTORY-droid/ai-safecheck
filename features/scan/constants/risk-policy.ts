@@ -1,6 +1,7 @@
 import type { RiskAction, RiskCategory, RiskSeverity, RiskSource } from "../types/risk.types";
 
 export type RiskPolicyKey =
+  | "customerName"
   | "personalPhone"
   | "personalEmail"
   | "residentNumber"
@@ -30,6 +31,15 @@ export interface RiskPolicyItem {
 }
 
 export const RISK_POLICY: Record<RiskPolicyKey, RiskPolicyItem> = {
+  customerName: {
+    category: "personalInfo",
+    label: "고객명",
+    description: "개인을 식별할 수 있는 고객명이 포함되어 있을 수 있습니다.",
+    weight: 20,
+    severity: "medium",
+    source: "regex",
+    action: "mask",
+  },
   personalPhone: {
     category: "personalInfo",
     label: "전화번호",
