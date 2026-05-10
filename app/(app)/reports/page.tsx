@@ -1,4 +1,5 @@
 import ReportFilters from "./_components/ReportFilters.client";
+import ReportGuideCard from "./_components/ReportGuideCard";
 import ReportList from "./_components/ReportList";
 import ReportPolicyMeta from "./_components/ReportPolicyMeta";
 
@@ -21,6 +22,8 @@ export default function ReportsPage() {
             검사 결과는 브라우저 출력 기능으로 저장하거나 PDF로 인쇄할 수 있습니다.
           </p>
         </div>
+
+        <ReportGuideCard />
 
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <ReportList />

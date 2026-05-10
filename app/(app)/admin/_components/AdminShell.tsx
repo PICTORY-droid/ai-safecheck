@@ -1,3 +1,4 @@
+import AdminGuideCard from "./AdminGuideCard";
 import CompanyPolicyForm from "./CompanyPolicyForm.client";
 import PolicyVersionCard from "./PolicyVersionCard";
 import SensitiveKeywordTable from "./SensitiveKeywordTable";
@@ -16,6 +17,8 @@ export default function AdminShell() {
             MVP 단계에서는 브라우저 localStorage에만 저장하며 서버 DB에는 저장하지 않습니다.
           </p>
         </div>
+
+        <AdminGuideCard />
 
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <CompanyPolicyForm />

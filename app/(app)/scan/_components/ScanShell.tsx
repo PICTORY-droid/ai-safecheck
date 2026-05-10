@@ -1,3 +1,4 @@
+import ScanGuideCard from "./ScanGuideCard";
 import ScanInput from "./ScanInput.client";
 
 export default function ScanShell() {
@@ -15,6 +16,7 @@ export default function ScanShell() {
           </p>
         </div>
 
+        <ScanGuideCard />
         <ScanInput />
       </section>
     </main>
