@@ -1,24 +1,170 @@
+cd "/c/Desktop/vibe/side project/ai-safecheck"
+
+cat > README.md <<'EOF'
 # AI SafeCheck
 
-AI SafeCheck는 외부 생성형 AI에 입력하기 전, 사용자의 입력문에 개인정보, 회사기밀, 계약정보, 저작권 위험, 허위·과장 표현이 포함되어 있는지 검사하는 웹 앱입니다.
+> PromptLab v3에 통합되기 전, 룰 기반 AI 입력 안전 검사를 실험한 초기 독립 프로젝트
 
-ChatGPT, Claude, Gemini 같은 AI 도구를 사용할 때 민감한 내용을 무심코 입력하는 문제를 줄이기 위해 만들었습니다.
+AI SafeCheck는 외부 생성형 AI에 입력하기 전, 사용자의 입력문에 개인정보, 회사기밀, 계약정보, 저작권 위험, 허위·과장 표현이 포함되어 있는지 검사하는 웹 앱으로 시작했습니다.
 
-배포 주소: https://ai-safecheck.vercel.app
+현재 최종 수업 제출 및 운영 프로젝트는 **PromptLab v3**입니다.  
+AI SafeCheck의 핵심 방향과 검사 개념은 PromptLab v3 내부의 안전 검사 모듈로 통합되었습니다.
+
+최종 통합본은 아래 저장소와 운영 사이트에서 확인할 수 있습니다.
+
+| 구분 | 주소 |
+|---|---|
+| PromptLab v3 운영 사이트 | https://promptlab.io.kr |
+| PromptLab v3 GitHub | https://github.com/PICTORY-droid/promptlab |
+| 초기 AI SafeCheck 배포 | https://ai-safecheck.vercel.app |
 
 ---
 
-## 1. 프로젝트 소개
+## 현재 저장소의 역할
 
-생성형 AI를 업무에 활용하는 경우가 많아졌지만, 사용자가 입력하는 문장 안에는 개인정보, 고객명, 전화번호, 상담기록, 회사 내부자료, 계약정보, 과장 표현이 포함될 수 있습니다.
+이 저장소는 AI SafeCheck를 독립 서비스로 실험하던 초기 프로젝트입니다.
 
-AI SafeCheck는 외부 AI에 입력하기 전에 이런 위험 요소를 먼저 점검하고, 안전하게 바꾼 문장을 제안하는 것을 목표로 합니다.
+수업 초반에는 외부 AI 도구에 입력하기 전 개인정보나 민감한 내용을 검사하는 별도 웹 앱으로 설계했습니다.  
+이후 PromptLab v3를 재구축하면서, SafeCheck 기능은 별도 서비스가 아니라 PromptLab 내부의 저장 전 안전 검사 모듈로 통합되었습니다.
 
-이 프로젝트는 바이브코딩, AI 및 에이전트 활용 수업 프로젝트로 제작했습니다.
+따라서 이 저장소는 현재 다음 목적을 가집니다.
+
+- AI SafeCheck 초기 아이디어와 실험 과정 기록
+- 룰 기반 검사 엔진 프로토타입 보관
+- 입력 위험 점수, 판정, 안전 문장 안내 구조 실험
+- PromptLab v3로 통합되기 전 개발 이력 보존
 
 ---
 
-## 2. 주요 기능
+## 왜 만들었나
+
+ChatGPT, Claude, Gemini 같은 생성형 AI 도구를 사용할 때 사용자는 종종 개인정보, 고객명, 전화번호, 상담기록, 회사 내부자료, 계약조건, 과장 표현을 그대로 입력할 수 있습니다.
+
+이런 입력은 보안과 개인정보 보호 측면에서 위험할 수 있습니다.
+
+AI SafeCheck는 외부 AI에 입력하기 전 사용자의 문장을 먼저 점검하고, 위험 요소를 알려주며, 안전한 문장으로 수정할 수 있도록 돕기 위해 만들었습니다.
+
+처음에는 별도 웹 앱으로 만들었지만, 수업을 계속 들으면서 PromptLab v3의 방향이 바뀌었습니다.
+
+기존 PromptLab은 프롬프트를 많이 모아 보여주는 구조였지만, v3에서는 사용자가 직접 프롬프트를 작성하고, 저장하고, 공개하기 전에 안전하게 검사하는 흐름이 더 중요해졌습니다.
+
+그래서 AI SafeCheck는 PromptLab v3 내부 기능으로 통합되었습니다.
+
+---
+
+## PromptLab v3로 통합된 내용
+
+AI SafeCheck에서 실험한 개념 중 PromptLab v3에 반영된 내용은 다음과 같습니다.
+
+| AI SafeCheck 초기 개념 | PromptLab v3 통합 결과 |
+|---|---|
+| 입력문 위험 검사 | 프롬프트 저장 전 SafeCheck 검사 |
+| 개인정보 탐지 | PromptLab 내부 룰 기반 detector로 반영 |
+| 회사기밀 탐지 | SafeCheck 검사 카테고리로 반영 |
+| 계약정보 탐지 | SafeCheck 검사 카테고리로 반영 |
+| 저작권 위험 탐지 | SafeCheck 검사 카테고리로 반영 |
+| 허위·과장 표현 탐지 | SafeCheck 검사 카테고리로 반영 |
+| 위험 점수 계산 | allow, review, block 판정 기준으로 반영 |
+| 안전 문장 안내 | PromptLab 저장 전 수정 안내로 반영 |
+| 리포트 안내 | SafeCheck Reports 화면으로 반영 |
+| 원문 미저장 원칙 | PromptLab 리포트 보안 정책으로 반영 |
+| 컴포넌트 분리 | PromptLab v3의 app, features, shared, server 구조로 확장 |
+| MCP/tool 개념 | PromptLab v3의 MCP-style tool adapter로 확장 |
+
+---
+
+## 현재 PromptLab v3에서의 SafeCheck 역할
+
+PromptLab v3에서 AI SafeCheck는 다음 역할을 합니다.
+
+- 사용자가 작성한 프롬프트 본문을 검사
+- 개인정보, 회사기밀, 계약정보, 저작권 위험, 허위·과장 표현 탐지
+- 위험 점수 계산
+- allow, review, block 판정
+- 저장 가능 여부 결정
+- 안전 문장 안내 제공
+- SafeCheck 리포트 저장
+- 검사 원문 미저장 정책 유지
+
+PromptLab v3에서는 SafeCheck 검사 결과가 실제 저장 정책과 연결됩니다.
+
+| 판정 | 저장 정책 |
+|---|---|
+| allow | 저장 가능 |
+| review | 비공개 + 초안 저장만 허용 |
+| block | 저장 차단 |
+
+---
+
+## 원문 미저장 원칙
+
+AI SafeCheck의 핵심 원칙은 검사 원문을 불필요하게 저장하지 않는 것입니다.
+
+초기 독립 프로젝트에서도 원문 저장을 최소화하는 방향으로 설계했고, 이 원칙은 PromptLab v3에 그대로 반영되었습니다.
+
+PromptLab v3 SafeCheck Reports에는 다음 데이터만 저장합니다.
+
+- 위험 점수
+- 최종 판정
+- 위험 카테고리
+- 안전 문장 안내
+- 정책 버전
+- 탐지기 버전
+- 검사 시각
+
+저장하지 않는 데이터는 다음과 같습니다.
+
+- 검사 원문 프롬프트
+- 고객명
+- 전화번호
+- 이메일 원문
+- 회사기밀 원문
+- 내부자료 원문
+- 계약조건 원문
+- 상담기록, 진료기록 같은 민감한 원문
+
+---
+
+## LLM을 최종 판정에 사용하지 않은 이유
+
+AI SafeCheck는 룰 기반 검사를 중심으로 설계했습니다.
+
+LLM API를 최종 위험 판정에 사용하지 않은 이유는 다음과 같습니다.
+
+- 같은 입력에 최대한 같은 결과를 제공하기 위해
+- 개인정보와 회사기밀 원문을 외부 LLM으로 보내지 않기 위해
+- 위험 판정의 근거를 코드와 테스트로 관리하기 위해
+- 무료 플랜 중심으로 운영하기 위해
+- 수업 제출용 MVP에서 비용 발생을 줄이기 위해
+
+PromptLab v3에서도 핵심 위험 판정은 LLM이 아니라 룰 기반 SafeCheck 엔진이 담당합니다.
+
+향후 LLM을 추가한다면 위험 판정이 아니라, 마스킹된 문장을 더 자연스럽게 고쳐주는 선택 기능으로만 붙이는 방향이 안전합니다.
+
+---
+
+## 기술 스택
+
+초기 AI SafeCheck 프로젝트에서 사용한 기술은 다음과 같습니다.
+
+| 구분 | 기술 |
+|---|---|
+| Framework | Next.js |
+| UI | React |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Validation | Zod |
+| Test | Vitest |
+| Version Control | Git, GitHub |
+| Deploy | Vercel |
+
+최종 통합 프로젝트인 PromptLab v3에서는 여기에 Supabase Auth, Supabase PostgreSQL, Google OAuth, Kakao OAuth, MCP-style tool adapter 구조가 추가되었습니다.
+
+---
+
+## 초기 구현 기능
+
+이 저장소에서 실험한 기능은 다음과 같습니다.
 
 - AI 입력문 위험 검사
 - 개인정보 탐지
@@ -41,330 +187,9 @@ AI SafeCheck는 외부 AI에 입력하기 전에 이런 위험 요소를 먼저 
 
 ---
 
-## 3. 사용 방법
+## 초기 사용 방법
 
-### 홈 화면
+초기 배포 주소는 다음과 같습니다.
 
-처음 사용하는 순서를 확인하고, 검사하기, 관리자, 리포트 메뉴로 이동할 수 있습니다.
-
-### 검사하기
-
-1. 외부 AI에 입력하려는 문장을 붙여넣습니다.
-2. 검사하기 버튼을 누릅니다.
-3. 위험 점수와 최종 판정을 확인합니다.
-4. 탐지된 위험 항목과 근거를 확인합니다.
-5. 안전 문장을 확인합니다.
-6. 필요하면 리포트 출력 버튼을 사용합니다.
-
-### 관리자
-
-1. 회사명을 입력합니다.
-2. 회사별 금지어를 입력합니다.
-3. 원문 저장 금지 정책을 확인합니다.
-4. 선택적 LLM 재작성 사용 여부를 확인합니다.
-5. 정책 저장 버튼을 누릅니다.
-
-현재 MVP 단계에서는 관리자 설정을 서버 DB에 저장하지 않고 브라우저 localStorage에만 저장합니다.
-
-### 리포트
-
-현재 MVP 단계에서는 검사 원문과 리포트를 서버에 저장하지 않습니다.
-
-검사 결과 화면에서 브라우저 출력 기능을 사용해 PDF로 저장할 수 있습니다.
-
----
-
-## 4. 테스트용 문장
-
-아래 문장을 검사하기 화면에 입력하면 입력 금지 판정과 안전 문장 제안을 확인할 수 있습니다.
-
-    김민수 고객의 전화번호 010-1234-5678, 진료기록, 상담기록을 바탕으로 치료 효과 100% 보장 광고를 작성해줘.
-
-예상 결과는 다음과 같습니다.
-
-- 최종 판정: 입력 금지
-- 위험 점수: 100 / 100
-- 탐지 항목: 고객명, 전화번호, 건강·병력 정보, 상담기록, 보장성 표현
-- LLM 사용: 미사용
-
-안전 문장 예시는 다음과 같습니다.
-
-    [고객명 삭제] 고객의 개인정보와 민감정보를 제외하고, 일반적인 서비스 안내 광고 문구를 작성해줘. 치료 효과는 단정하지 않는 표현으로 작성해줘.
-
----
-
-## 5. 기술 스택
-
-| 구분 | 기술 |
-|---|---|
-| Framework | Next.js |
-| UI | React |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Validation | Zod |
-| Test | Vitest |
-| Version Control | Git, GitHub |
-| Deploy | Vercel |
-
-Supabase는 현재 실제 연동하지 않았습니다. 향후 회사별 정책 저장과 리포트 저장 기능을 추가할 때 사용할 예정입니다.
-
----
-
-## 6. 프로젝트 구조와 컴포넌트 분리
-
-이 프로젝트는 수업에서 배운 컴포넌트 분리 원칙을 기준으로 화면, 공통 UI, 비즈니스 로직, API, 테스트를 나눠 구현했습니다.
-
-    ai-safecheck/
-    ├─ app/
-    │  ├─ page.tsx
-    │  ├─ layout.tsx
-    │  │
-    │  ├─ _components/
-    │  │  ├─ AppHeader.tsx
-    │  │  ├─ AppLogo.tsx
-    │  │  └─ HomeQuickStart.tsx
-    │  │
-    │  ├─ (app)/
-    │  │  ├─ scan/
-    │  │  │  ├─ page.tsx
-    │  │  │  ├─ loading.tsx
-    │  │  │  ├─ error.tsx
-    │  │  │  └─ _components/
-    │  │  │     ├─ ScanShell.tsx
-    │  │  │     ├─ ScanGuideCard.tsx
-    │  │  │     ├─ ScanInput.client.tsx
-    │  │  │     ├─ ScanResult.tsx
-    │  │  │     ├─ RiskDecisionBanner.tsx
-    │  │  │     ├─ RiskScoreCard.tsx
-    │  │  │     ├─ RiskCategoryList.tsx
-    │  │  │     ├─ RiskEvidenceList.tsx
-    │  │  │     ├─ HighlightedText.tsx
-    │  │  │     ├─ SafePromptPreview.tsx
-    │  │  │     ├─ ConsistencyMeta.tsx
-    │  │  │     └─ ExportReportButton.client.tsx
-    │  │  │
-    │  │  ├─ admin/
-    │  │  │  ├─ page.tsx
-    │  │  │  └─ _components/
-    │  │  │     ├─ AdminShell.tsx
-    │  │  │     ├─ AdminGuideCard.tsx
-    │  │  │     ├─ CompanyPolicyForm.client.tsx
-    │  │  │     ├─ PolicyVersionCard.tsx
-    │  │  │     ├─ SensitiveKeywordTable.tsx
-    │  │  │     └─ AddKeywordDialog.client.tsx
-    │  │  │
-    │  │  └─ reports/
-    │  │     ├─ page.tsx
-    │  │     └─ _components/
-    │  │        ├─ ReportGuideCard.tsx
-    │  │        ├─ ReportList.tsx
-    │  │        ├─ ReportPolicyMeta.tsx
-    │  │        └─ ReportFilters.client.tsx
-    │  │
-    │  └─ api/
-    │     ├─ scan/
-    │     │  └─ route.ts
-    │     └─ rewrite/
-    │        └─ route.ts
-    │
-    ├─ features/
-    │  ├─ scan/
-    │  │  ├─ actions/
-    │  │  ├─ constants/
-    │  │  │  ├─ policy-version.ts
-    │  │  │  ├─ risk-categories.ts
-    │  │  │  ├─ risk-patterns.ts
-    │  │  │  ├─ risk-policy.ts
-    │  │  │  └─ risk-thresholds.ts
-    │  │  ├─ schemas/
-    │  │  ├─ server/
-    │  │  │  ├─ detectors/
-    │  │  │  │  ├─ detect-personal-info.ts
-    │  │  │  │  ├─ detect-sensitive-info.ts
-    │  │  │  │  ├─ detect-company-secret.ts
-    │  │  │  │  ├─ detect-contract-risk.ts
-    │  │  │  │  ├─ detect-copyright-risk.ts
-    │  │  │  │  ├─ detect-exaggeration-risk.ts
-    │  │  │  │  └─ detect-custom-policy-keywords.ts
-    │  │  │  ├─ llm/
-    │  │  │  ├─ build-safe-prompt.ts
-    │  │  │  ├─ build-scan-summary.ts
-    │  │  │  ├─ calculate-risk-score.ts
-    │  │  │  ├─ decide-risk-level.ts
-    │  │  │  ├─ merge-risk-findings.ts
-    │  │  │  ├─ normalize-input.ts
-    │  │  │  └─ scan-text.ts
-    │  │  ├─ tests/
-    │  │  └─ types/
-    │  │
-    │  └─ report/
-    │     ├─ server/
-    │     ├─ types/
-    │     └─ utils/
-    │
-    ├─ shared/
-    │  ├─ ui/
-    │  │  ├─ badge.tsx
-    │  │  ├─ button.tsx
-    │  │  ├─ card.tsx
-    │  │  ├─ dialog.tsx
-    │  │  ├─ spinner.tsx
-    │  │  └─ textarea.tsx
-    │  └─ lib/
-    │     └─ cn.ts
-    │
-    ├─ server/
-    │  ├─ auth/
-    │  ├─ db/
-    │  ├─ env/
-    │  └─ security/
-    │
-    ├─ public/
-    ├─ package.json
-    └─ tsconfig.json
-
-### 컴포넌트 분리 기준
-
-| 영역 | 분리 기준 |
-|---|---|
-| app/_components | 앱 전체에서 공통으로 사용하는 Header, Logo, 홈 안내 컴포넌트 |
-| scan/_components | 검사 입력, 결과 표시, 점수 카드, 위험 카테고리, 탐지 근거, 안전 문장, 정책 메타데이터를 각각 분리 |
-| admin/_components | 관리자 안내, 정책 입력 폼, 정책 버전 카드, 금지어 테이블, 금지어 추가 다이얼로그 분리 |
-| reports/_components | 리포트 안내, 리포트 목록, 정책 메타데이터, 필터 UI 분리 |
-| features/scan/server | 위험 탐지, 점수 계산, 최종 판정, 안전 문장 생성, 요약 생성을 화면 코드에서 분리 |
-| features/scan/server/detectors | 개인정보, 민감정보, 회사기밀, 계약정보, 저작권 위험, 허위·과장 표현 detector를 파일별로 분리 |
-| shared/ui | 버튼, 카드, 배지, 텍스트영역, 다이얼로그, 스피너 등 재사용 UI 분리 |
-| tests | detector, 점수 계산, 전체 scan 결과, 회귀 테스트를 분리 |
-
----
-
-## 7. 핵심 설계 원칙
-
-### LLM이 최종 판정하지 않음
-
-AI SafeCheck의 최종 판정은 LLM이 아니라 룰 기반 detector, 위험 점수 계산 로직, 정책 threshold로 결정합니다.
-
-### 같은 입력에는 같은 결과
-
-정책 버전, 점수 버전, 탐지기 버전을 분리해 관리하고, 회귀 테스트를 통해 결과 일관성을 확인합니다.
-
-### 원문 저장 안 함
-
-현재 MVP에서는 검사 원문을 서버에 저장하지 않습니다.
-
-### 차단 문장은 LLM에 보내지 않음
-
-선택적 LLM 재작성 계층은 구조만 준비되어 있으며, 현재 실제 LLM provider는 연결하지 않았습니다.
-
-### 테스트 기반 관리
-
-탐지기, 점수 계산, 전체 scan 결과를 테스트로 검증합니다.
-
----
-
-## 8. 로컬 실행 방법
-
-프로젝트를 로컬에서 실행하려면 아래 순서로 진행합니다.
-
-1. 패키지 설치
-
-    npm install
-
-2. 개발 서버 실행
-
-    npm run dev
-
-3. 브라우저 접속
-
-    http://localhost:3000
-
-주요 페이지는 다음과 같습니다.
-
-- http://localhost:3000
-- http://localhost:3000/scan
-- http://localhost:3000/admin
-- http://localhost:3000/reports
-
----
-
-## 9. 검사 및 테스트 방법
-
-TypeScript 검사:
-
-    npx tsc --noEmit
-
-테스트 실행:
-
-    npm test
-
-프로덕션 빌드 확인:
-
-    npm run build
-
-현재 확인된 결과는 다음과 같습니다.
-
-- TypeScript 통과
-- 4개 테스트 파일 통과
-- 25개 테스트 통과
-- production build 성공
-
----
-
-## 10. 현재 구현 범위
-
-현재 구현된 범위는 MVP입니다.
-
-- 룰 기반 입력문 검사
-- 위험 점수 계산
-- 최종 판정
-- 안전 문장 생성
-- 관리자 정책 설정 화면
-- 리포트 안내 화면
-- 브라우저 출력 기반 리포트
-- 선택적 LLM rewrite 계층 구조
-- 앱 로고와 favicon
-- Vercel 배포
-
----
-
-## 11. 현재 한계
-
-아래 기능은 아직 구현하지 않았습니다.
-
-- 로그인
-- 회원 권한 관리
-- Supabase DB 저장
-- 회사별 정책 서버 저장
-- 실제 LLM provider 연결
-- 파일 업로드 검사
-- PDF 분석
-- HWP 분석
-- OCR
-- 대용량 문서 검사
-- 리포트 서버 저장
-- 결제 기능
-
----
-
-## 12. 향후 개선 계획
-
-- Supabase DB 연동
-- 회사별 금지어 서버 저장
-- 로그인과 권한 관리
-- 조직별 정책 관리
-- 검사 리포트 저장
-- PDF 다운로드 품질 개선
-- 실제 LLM 재작성 provider 연결
-- 브라우저 확장 프로그램 확장
-- 파일 업로드 기반 문서 검사
-- 테스트 fixture 확대
-
----
-
-## 13. 수업 프로젝트 메모
-
-이 프로젝트는 바이브코딩, AI 및 에이전트 활용 수업 프로젝트로 제작했습니다.
-
-요구사항 정의, 구조 설계, 코드 생성, 오류 수정, 테스트, 배포 과정을 AI 도구와 함께 진행했습니다.
-
-초보 개발자 기준에서도 프로젝트 구조를 이해할 수 있도록 UI, API, 비즈니스 로직, 테스트, 공통 컴포넌트를 분리해 구현했습니다.
+```text
+https://ai-safecheck.vercel.app
