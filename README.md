@@ -1,6 +1,3 @@
-cd "/c/Desktop/vibe/side project/ai-safecheck"
-
-cat > README.md <<'EOF'
 # AI SafeCheck
 
 > PromptLab v3에 통합되기 전, 룰 기반 AI 입력 안전 검사를 실험한 초기 독립 프로젝트
